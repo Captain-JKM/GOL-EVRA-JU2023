@@ -35,7 +35,11 @@ public class Tablero extends JPanel implements ActionListener {
 
         switch (patron) {
             case "Muerte":
-                // Código para cargar el patrón "Muerte"
+                for (int i = 0; i < filas; i++) { //Recorres las filas del tablero
+                    for (int j = 0; j < columnas; j++) { //Recorres las columnas del tablero
+                        celdas[i][j].setEstado(false); //Asignas el valor false a cada celda
+                    }
+                }
                 break;
             case "Bloque":
                 // Código para cargar el patrón "Bloque"
@@ -48,35 +52,7 @@ public class Tablero extends JPanel implements ActionListener {
 
     }
 
-    public void iniciarTablero(String patron) {
-        limpiarTablero(); // Limpia el tablero
-        boolean[][] matriz = getPatron(patron); // Obtiene la matriz del patrón
-        if (matriz != null) {
-            int f = matriz.length; // Número de filas del patrón
-            int c = matriz[0].length; // Número de columnas del patrón
-            int x = (filas - f) / 2; // Posición x del centro del tablero
-            int y = (columnas - c) / 2; // Posición y del centro del tablero
-            // Coloca el patrón en el centro del tablero
-            for (int i = 0; i < f; i++) {
-                for (int j = 0; j < c; j++) {
-                    celdas[x + i][y + j].setEstado(matriz[i][j]);
-                }
-            }
-            repaint();
-        }
-    }
-    private boolean[][] getPatron(String patron) {
-        // Define patrones predefinidos
-        HashMap<String, boolean[][]> patrones = new HashMap<>();
-        patrones.put("Patrón de la Muerte", new boolean[][] {
-                {false, true, false},
-                {true, false, true},
-                {false, true, false}
-        });
-        // Agregar más patrones según sea necesario
 
-        return patrones.get(patron);
-    }
 
     public void iniciarJuego() {
         timer.start();
