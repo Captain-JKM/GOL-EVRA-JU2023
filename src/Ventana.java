@@ -1,74 +1,70 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
-public class Ventana extends JFrame implements ActionListener {
-    private final Tablero tablero;
+public class Ventana extends JFrame {
 
-    public Ventana(int filas, int columnas) {
-        super("Juego de la Vida");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+    private Tablero tablero; // Tablero del juego
+    private JButton botonIniciar; // Botón para iniciar el juego
+    private JButton botonPausar; // Botón para pausar el juego
+    private JButton botonLimpiar; // Botón para limpiar el tablero
+    private JButton botonAplicar; // Botón para aplicar el patrón seleccionado
+    private JComboBox<String> menuPatrones; // Menú para seleccionar el patrón
+    private String[] patrones = {"Muerte", "Bloque", "Colmena", "Barco", "Sapo", "Reloj", "Planeador", "Nave ligera", "Nave media", "Nave pesada"}; // Arreglo de nombres de patrones
 
-        tablero = new Tablero(filas, columnas);
-        add(tablero, BorderLayout.CENTER);
-
-        JPanel panelBotones = new JPanel();
-
-        // Botón para iniciar el juego
-        JButton botonIniciar = new JButton("Iniciar");
-        botonIniciar.addActionListener(this);
-        panelBotones.add(botonIniciar);
-
-        // Botón para pausar el juego
-        JButton botonPausar = new JButton("Pausar");
-        botonPausar.addActionListener(this);
-        panelBotones.add(botonPausar);
-
-        // Botón para limpiar el tablero
-        JButton botonLimpiar = new JButton("Limpiar");
-        botonLimpiar.addActionListener(this);
-        panelBotones.add(botonLimpiar);
-
-        // Menú desplegable para seleccionar patrón
-        JComboBox<String> patronComboBox = new JComboBox<>();
-        patronComboBox.addItem("Patrón de la Muerte");
-        patronComboBox.setSelectedItem("Patrón de la Muerte"); // Seleccionar el patrón por defecto
-        // Agregar más patrones al menú
-        panelBotones.add(patronComboBox);
-
-        // Botón para aplicar el patrón seleccionado
-        JButton botonAplicarPatron = new JButton("Aplicar Patrón");
-        botonAplicarPatron.addActionListener(new ActionListener() {
+    public Ventana() {
+        super("Juego de la vida");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1000, 1000);
+        this.setLocationRelativeTo(null);
+        this.setLayout(new BorderLayout());
+        tablero = new Tablero();
+        this.add(tablero, BorderLayout.CENTER);
+        JPanel panelInferior = new JPanel();
+        panelInferior.setBackground(Color.BLACK);
+        botonIniciar = new JButton("Iniciar");
+        botonIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String patronSeleccionado = (String) patronComboBox.getSelectedItem();
-                if (patronSeleccionado != null) {
-                    tablero.iniciarTablero(patronSeleccionado);
-                }
+                tablero.iniciarJuego();
             }
         });
-        panelBotones.add(botonAplicarPatron);
-
-
-        add(panelBotones, BorderLayout.SOUTH);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Iniciar")) {
-            tablero.iniciarJuego();
-        } else if (e.getActionCommand().equals("Pausar")) {
-            tablero.pausarJuego();
-        } else if (e.getActionCommand().equals("Limpiar")) {
-            tablero.limpiarTablero();
-        }
+        panelInferior.add(botonIniciar);
+        botonPausar = new JButton("Pausar");
+        botonPausar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tablero.pausarJuego();
+            }
+        });
+        panelInferior.add(botonPausar);
+        botonLimpiar = new JButton("Limpiar");
+        botonLimpiar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tablero.limpiarTablero();
+            }
+        });
+        panelInferior.add(botonLimpiar);
+        menuPatrones = new JComboBox<>(patrones);
+        panelInferior.add(menuPatrones);
+        botonAplicar = new JButton("Aplicar");
+        botonAplicar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String patron = (String) menuPatrones.getSelectedItem();
+                tablero.iniciarTablero(patron);
+            }
+        });
+        panelInferior.add(botonAplicar);
+        this.add(panelInferior, BorderLayout.SOUTH);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana(30, 30);
+            Ventana ventana = new Ventana();
             ventana.setVisible(true);
         });
     }
