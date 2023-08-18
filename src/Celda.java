@@ -8,7 +8,8 @@ public class Celda extends JPanel {
     public Celda() {
         estado = false;
         color = Color.WHITE;
-        setPreferredSize(new Dimension(20, 20));
+        //Ajustamos el tamaño de nuestras celdas
+        setPreferredSize(new Dimension(5, 5));
     }
 
     public boolean getEstado() {

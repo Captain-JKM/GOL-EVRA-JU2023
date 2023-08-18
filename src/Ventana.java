@@ -41,6 +41,7 @@ public class Ventana extends JFrame implements ActionListener {
         }
     }
 
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Ventana ventana = new Ventana(30, 30);

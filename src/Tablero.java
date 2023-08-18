@@ -17,7 +17,8 @@ public class Tablero extends JPanel implements ActionListener {
 
         setLayout(new GridLayout(filas, columnas));
         celdas = new Celda[filas][columnas];
-        timer = new Timer(500, this);
+        //Velocidad del juego
+        timer = new Timer(100, this);
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -25,6 +26,21 @@ public class Tablero extends JPanel implements ActionListener {
                 add(celdas[i][j]);
             }
         }
+
+        iniciarTablero(); // Añadir esta línea
+    }
+
+    public void iniciarTablero() {
+        // Asigna un estado inicial aleatorio a las celdas
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                // Patron Compuesto
+                celdas[i][j].setEstado(Math.random() < Math.sin(i * j / 100.0));
+                // Patron normal
+                // celdas[i][j].setEstado(Math.random() < 0.5);
+            }
+        }
+        repaint();
     }
 
     public void iniciarJuego() {
