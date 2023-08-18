@@ -4,15 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Ventana extends JFrame {
-
-    private Tablero tablero; // Tablero del juego
-    private JButton botonIniciar; // Botón para iniciar el juego
-    private JButton botonPausar; // Botón para pausar el juego
-    private JButton botonLimpiar; // Botón para limpiar el tablero
-    private JButton botonAplicar; // Botón para aplicar el patrón seleccionado
-    private JComboBox<String> menuPatrones; // Menú para seleccionar el patrón
-    private String[] patrones = {"Muerte", "Bloque", "Colmena", "Barco", "Sapo", "Reloj", "Planeador", "Nave ligera", "Nave media", "Nave pesada"}; // Arreglo de nombres de patrones
+public class Ventana extends JFrame implements ActionListener {
+    private Tablero tablero;
+    private JButton botonIniciar;
+    private JButton botonPausar;
+    private JButton botonLimpiar;
+    private JButton botonAplicar;
+    private JComboBox<String> menuPatrones;
+    private String[] patrones = {"Muerte", "Bloque", "Colmena", "Barco", "Sapo", "Reloj", "Planeador", "Nave ligera", "Nave media", "Nave pesada"};
+    private String patronSeleccionado; // Cambiado a String
 
     public Ventana() {
         super("Juego de la vida");
@@ -20,46 +20,56 @@ public class Ventana extends JFrame {
         this.setSize(1000, 1000);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
-        tablero = new Tablero();
+
+        // Aquí se debe crear el tablero con los argumentos necesarios
+        tablero = new Tablero(100, 100);
+        //mandamos los datos a nuestro constructor para ser pintado mas adelante
         this.add(tablero, BorderLayout.CENTER);
+
         JPanel panelInferior = new JPanel();
         panelInferior.setBackground(Color.BLACK);
+
         botonIniciar = new JButton("Iniciar");
-        botonIniciar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tablero.iniciarJuego();
-            }
-        });
+        botonIniciar.addActionListener(this);
         panelInferior.add(botonIniciar);
+
         botonPausar = new JButton("Pausar");
-        botonPausar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tablero.pausarJuego();
-            }
-        });
+        botonPausar.addActionListener(this);
         panelInferior.add(botonPausar);
+
         botonLimpiar = new JButton("Limpiar");
-        botonLimpiar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tablero.limpiarTablero();
-            }
-        });
+        botonLimpiar.addActionListener(this);
         panelInferior.add(botonLimpiar);
+
         menuPatrones = new JComboBox<>(patrones);
         panelInferior.add(menuPatrones);
+
         botonAplicar = new JButton("Aplicar");
-        botonAplicar.addActionListener(new ActionListener() {
+        botonAplicar.addActionListener(this);
+        panelInferior.add(botonAplicar);
+
+        // Escuchador de acción para el menú desplegable
+        menuPatrones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String patron = (String) menuPatrones.getSelectedItem();
-                tablero.iniciarTablero(patron);
+                patronSeleccionado = (String) menuPatrones.getSelectedItem(); // Actualizado a patronSeleccionado
             }
         });
-        panelInferior.add(botonAplicar);
+
+        // Panel barra baja
         this.add(panelInferior, BorderLayout.SOUTH);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == botonIniciar) {
+            tablero.iniciarJuego();
+        } else if (e.getSource() == botonPausar) {
+            tablero.pausarJuego();
+        } else if (e.getSource() == botonLimpiar) {
+            tablero.limpiarTablero();
+        } else if (e.getSource() == botonAplicar) {
+            tablero.cargarPatron(patronSeleccionado); // Llama al método cargarPatron del tablero con patronSeleccionado
+        }
     }
 
     public static void main(String[] args) {

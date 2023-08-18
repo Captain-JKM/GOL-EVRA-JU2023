@@ -11,6 +11,8 @@ public class Tablero extends JPanel implements ActionListener {
     private Timer timer;
     private int generacion;
 
+    //Aqui declaramos el tablero, para nosotros que sera llamado en ventana
+    //donde podemos configurar su tamaño
     public Tablero(int filas, int columnas) {
         this.filas = filas;
         this.columnas = columnas;
@@ -18,7 +20,7 @@ public class Tablero extends JPanel implements ActionListener {
 
         setLayout(new GridLayout(filas, columnas));
         celdas = new Celda[filas][columnas];
-        timer = new Timer(100, this);
+        timer = new Timer(50, this);
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -26,14 +28,23 @@ public class Tablero extends JPanel implements ActionListener {
                 add(celdas[i][j]);
             }
         }
+    }
+    //sacamos de ventana el patron y lo llamamos aca para hacer la seleccion
+    public void cargarPatron(String patron) {
+        limpiarTablero(); // Limpia el tablero antes de cargar un nuevo patrón
 
-        // Asigna el estado inicial "Patrón de la Muerte"
-        celdas[1][0].setEstado(true);
-        celdas[2][1].setEstado(true);
-        celdas[2][2].setEstado(true);
-        celdas[1][2].setEstado(true);
-        celdas[0][2].setEstado(true);
-
+        switch (patron) {
+            case "Muerte":
+                // Código para cargar el patrón "Muerte"
+                break;
+            case "Bloque":
+                // Código para cargar el patrón "Bloque"
+                break;
+            case "Colmena":
+                // Código para cargar el patrón "Colmena"
+                break;
+            // Añade más casos para los demás patrones
+        }
 
     }
 
