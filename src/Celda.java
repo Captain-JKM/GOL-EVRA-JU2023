@@ -13,7 +13,7 @@ public class Celda extends JPanel {
         estado = false;
         color = Color.WHITE;
         // Ajustamos el tamaño de nuestras celdas
-        setPreferredSize(new Dimension(10, 10));
+        setPreferredSize(new Dimension(50, 50));
         agregarEventoRaton(); // Agregamos el evento de ratón en el constructor
     }
 

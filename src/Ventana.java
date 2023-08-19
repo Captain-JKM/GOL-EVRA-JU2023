@@ -22,7 +22,7 @@ public class Ventana extends JFrame implements ActionListener {
         this.setLayout(new BorderLayout());
 
         // Aquí se debe crear el tablero con los argumentos necesarios
-        tablero = new Tablero(100, 100);
+        tablero = new Tablero(50, 50);
         //mandamos los datos a nuestro constructor para ser pintado mas adelante
         this.add(tablero, BorderLayout.CENTER);
 
