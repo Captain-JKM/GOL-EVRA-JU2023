@@ -1,3 +1,4 @@
+// Clase Celda
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -45,6 +46,8 @@ public class Celda extends JPanel {
                     } else { // Si la celda está muerta
                         setColor(Color.WHITE); // Cambiamos el color a blanco
                     }
+                    // Cambia el valor del atributo pintado en el tablero a verdadero
+                    ((Tablero)getParent()).setPintado(true);
                 }
             }
         });

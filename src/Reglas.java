@@ -1,3 +1,4 @@
+// Clase Reglas
 public class Reglas {
 
     public static boolean[][] aplicarReglas(boolean[][] actual, Celda[][] celdasManuales) {

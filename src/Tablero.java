@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 public class Tablero extends JPanel implements ActionListener {
     private int filas;
@@ -10,13 +9,14 @@ public class Tablero extends JPanel implements ActionListener {
     private Celda[][] celdas;
     private Timer timer;
     private int generacion;
+    private boolean pintado; // Nuevo atributo
 
-    //Aqui declaramos el tablero, para nosotros que sera llamado en ventana
-    //donde podemos configurar su tamaño
+    // Constructor del tablero
     public Tablero(int filas, int columnas) {
         this.filas = filas;
         this.columnas = columnas;
         this.generacion = 0;
+        this.pintado = false; // Inicialización del atributo
 
         setLayout(new GridLayout(filas, columnas));
         celdas = new Celda[filas][columnas];
@@ -29,15 +29,21 @@ public class Tablero extends JPanel implements ActionListener {
             }
         }
     }
-    //sacamos de ventana el patron y lo llamamos aca para hacer la seleccion
+
+    // Método para establecer el atributo pintado
+    public void setPintado(boolean valor) {
+        pintado = valor;
+    }
+
+    // Método para cargar un patrón en el tablero
     public void cargarPatron(String patron) {
         limpiarTablero(); // Limpia el tablero antes de cargar un nuevo patrón
 
         switch (patron) {
             case "Muerte":
-                for (int i = 0; i < filas; i++) { //Recorres las filas del tablero
-                    for (int j = 0; j < columnas; j++) { //Recorres las columnas del tablero
-                        celdas[i][j].setEstado(false); //Asignas el valor false a cada celda
+                for (int i = 0; i < filas; i++) {
+                    for (int j = 0; j < columnas; j++) {
+                        celdas[i][j].setEstado(false);
                     }
                 }
                 break;
@@ -49,9 +55,7 @@ public class Tablero extends JPanel implements ActionListener {
                 break;
             // Añade más casos para los demás patrones
         }
-
     }
-
 
 
     public void iniciarJuego() {
