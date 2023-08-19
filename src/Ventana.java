@@ -1,80 +1,74 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 
 public class Ventana extends JFrame implements ActionListener {
-    private Tablero tablero;
-    private JButton botonIniciar;
-    private JButton botonPausar;
-    private JButton botonLimpiar;
-    private JButton botonAplicar;
-    private JComboBox<String> menuPatrones;
-    private String[] patrones = {"Muerte", "Bloque", "Colmena", "Barco", "Sapo", "Reloj", "Planeador", "Nave ligera", "Nave media", "Nave pesada"};
-    private String patronSeleccionado; // Cambiado a String
+    private final Tablero tablero;
 
-    public Ventana() {
-        super("Juego de la vida");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000, 1000);
-        this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
+    public Ventana(int filas, int columnas) {
+        super("Juego de la Vida");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
 
-        // Aquí se debe crear el tablero con los argumentos necesarios
-        tablero = new Tablero(50, 50);
-        //mandamos los datos a nuestro constructor para ser pintado mas adelante
-        this.add(tablero, BorderLayout.CENTER);
+        tablero = new Tablero(filas, columnas);
+        add(tablero, BorderLayout.CENTER);
 
-        JPanel panelInferior = new JPanel();
-        panelInferior.setBackground(Color.BLACK);
+        JPanel panelBotones = new JPanel();
 
-        botonIniciar = new JButton("Iniciar");
+        // Botón para iniciar el juego
+        JButton botonIniciar = new JButton("Iniciar");
         botonIniciar.addActionListener(this);
-        panelInferior.add(botonIniciar);
+        panelBotones.add(botonIniciar);
 
-        botonPausar = new JButton("Pausar");
+        // Botón para pausar el juego
+        JButton botonPausar = new JButton("Pausar");
         botonPausar.addActionListener(this);
-        panelInferior.add(botonPausar);
+        panelBotones.add(botonPausar);
 
-        botonLimpiar = new JButton("Limpiar");
+        // Botón para limpiar el tablero
+        JButton botonLimpiar = new JButton("Limpiar");
         botonLimpiar.addActionListener(this);
-        panelInferior.add(botonLimpiar);
+        panelBotones.add(botonLimpiar);
 
-        menuPatrones = new JComboBox<>(patrones);
-        panelInferior.add(menuPatrones);
+        // Menú desplegable para seleccionar patrón
+        JComboBox<String> patronComboBox = new JComboBox<>();
+        patronComboBox.addItem("Patrón de la Muerte");
+        patronComboBox.setSelectedItem("Patrón de la Muerte"); // Seleccionar el patrón por defecto
+        // Agregar más patrones al menú
+        panelBotones.add(patronComboBox);
 
-        botonAplicar = new JButton("Aplicar");
-        botonAplicar.addActionListener(this);
-        panelInferior.add(botonAplicar);
-
-        // Escuchador de acción para el menú desplegable
-        menuPatrones.addActionListener(new ActionListener() {
+        // Botón para aplicar el patrón seleccionado
+        JButton botonAplicarPatron = new JButton("Aplicar Patrón");
+        botonAplicarPatron.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                patronSeleccionado = (String) menuPatrones.getSelectedItem(); // Actualizado a patronSeleccionado
+                String patronSeleccionado = (String) patronComboBox.getSelectedItem();
+                if (patronSeleccionado != null) {
+                    tablero.iniciarTablero(patronSeleccionado);
+                }
             }
         });
+        panelBotones.add(botonAplicarPatron);
 
-        // Panel barra baja
-        this.add(panelInferior, BorderLayout.SOUTH);
+
+        add(panelBotones, BorderLayout.SOUTH);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == botonIniciar) {
+        if (e.getActionCommand().equals("Iniciar")) {
             tablero.iniciarJuego();
-        } else if (e.getSource() == botonPausar) {
+        } else if (e.getActionCommand().equals("Pausar")) {
             tablero.pausarJuego();
-        } else if (e.getSource() == botonLimpiar) {
+        } else if (e.getActionCommand().equals("Limpiar")) {
             tablero.limpiarTablero();
-        } else if (e.getSource() == botonAplicar) {
-            tablero.cargarPatron(patronSeleccionado); // Llama al método cargarPatron del tablero con patronSeleccionado
         }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana();
+            Ventana ventana = new Ventana(100, 100);
             ventana.setVisible(true);
         });
     }

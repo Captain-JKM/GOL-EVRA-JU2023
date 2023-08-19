@@ -1,4 +1,3 @@
-// Clase Reglas
 public class Reglas {
 
     public static boolean[][] aplicarReglas(boolean[][] actual, Celda[][] celdasManuales) {
@@ -11,17 +10,19 @@ public class Reglas {
                 // Aplicar reglas automáticas
                 if (actual[i][j]) {
                     if (vecinos == 2 || vecinos == 3) {
-                        siguiente[i][j] = true;
+                        siguiente[i][j] = true; // Regla de sobrevivencia
                     }
                 } else {
                     if (vecinos == 3) {
-                        siguiente[i][j] = true;
+                        siguiente[i][j] = true; // Regla de reproducción
+                    } else {
+                        siguiente[i][j] = false; // La celda muere si no cumple con ninguna condición
                     }
                 }
 
                 // Combinar con celdas manuales
                 if (celdasManuales[i][j].getEstado()) {
-                    siguiente[i][j] = true;
+                    siguiente[i][j] = true; // Regla de celdas manuales
                 }
             }
         }
