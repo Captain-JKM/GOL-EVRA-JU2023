@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Tablero extends JPanel implements ActionListener {
     private int filas;
@@ -46,9 +47,9 @@ public class Tablero extends JPanel implements ActionListener {
         if (matriz != null) {
             int f = matriz.length; // Número de filas del patrón
             int c = matriz[0].length; // Número de columnas del patrón
-            int x = (filas - f) / 2; // Posición x del centro del tablero
-            int y = (columnas - c) / 2; // Posición y del centro del tablero
-            // Coloca el patrón en el centro del tablero
+            int x = 0; // Cambia el valor de x a 0 para iniciar desde la esquina superior izquierda
+            int y = 0; // Cambia el valor de y a 0 para iniciar desde la esquina superior izquierda
+            // Coloca el patrón en la esquina superior izquierda del tablero
             for (int i = 0; i < f; i++) {
                 for (int j = 0; j < c; j++) {
                     celdas[x + i][y + j].setEstado(matriz[i][j]);
@@ -60,7 +61,7 @@ public class Tablero extends JPanel implements ActionListener {
     private boolean[][] getPatron(String patron) {
         // Define patrones predefinidos
         HashMap<String, boolean[][]> patrones = new HashMap<>();
-        patrones.put("Patrón de la Muerte", new boolean[][] {
+        patrones.put("Goofy", new boolean[][] {
                 {true, true, true, true, true, true, true, true},
                 {true, false, true, false, true, true, false, false},
                 {true, true, true,false,false,true,true,true}
@@ -85,6 +86,17 @@ public class Tablero extends JPanel implements ActionListener {
     public void iniciarJuego() {
         timer.start();
     }
+    public void randomGame() {
+        timer.stop();
+        Random random = new Random();
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                celdas[i][j].setEstado(random.nextBoolean());
+            }
+        }
+
+    }
+
 
     public void pausarJuego() {
         timer.stop();
@@ -100,6 +112,19 @@ public class Tablero extends JPanel implements ActionListener {
         repaint();
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        boolean[][] estadoCeldas = obtenerEstadoCeldas();
+        boolean[][] siguienteEstado = reglas.aplicarReglas(estadoCeldas);
+
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                celdas[i][j].setEstado(siguienteEstado[i][j]);
+            }
+        }
+        repaint();
+    }
+
     private boolean[][] obtenerEstadoCeldas() {
         boolean[][] estadoCeldas = new boolean[filas][columnas];
         for (int i = 0; i < filas; i++) {
@@ -108,18 +133,5 @@ public class Tablero extends JPanel implements ActionListener {
             }
         }
         return estadoCeldas;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        boolean[][] estadoCeldas = obtenerEstadoCeldas(); // Modificado aquí
-        boolean[][] siguienteEstado = reglas.aplicarReglas(estadoCeldas); // Modificado aquí
-
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                celdas[i][j].setEstado(siguienteEstado[i][j]);
-            }
-        }
-        repaint();
     }
 }

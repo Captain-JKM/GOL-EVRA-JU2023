@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Ventana extends JFrame implements ActionListener {
     private final Tablero tablero;
@@ -20,6 +21,10 @@ public class Ventana extends JFrame implements ActionListener {
         JButton botonIniciar = new JButton("Iniciar");
         botonIniciar.addActionListener(this);
         panelBotones.add(botonIniciar);
+        //Boton Para un patrón random
+        JButton botonRandom = new JButton("Random");
+        botonRandom.addActionListener(this);
+        panelBotones.add(botonRandom);
 
         // Botón para pausar el juego
         JButton botonPausar = new JButton("Pausar");
@@ -33,10 +38,10 @@ public class Ventana extends JFrame implements ActionListener {
 
         // Menú desplegable para seleccionar patrón
         JComboBox<String> patronComboBox = new JComboBox<>();
-        patronComboBox.addItem("Patrón de la Muerte");
+        patronComboBox.addItem("Goofy");
         patronComboBox.addItem("Colmena");
         patronComboBox.addItem("Glider");
-        patronComboBox.setSelectedItem("Patrón de la Muerte"); // Seleccionar el patrón por defecto
+        patronComboBox.setSelectedItem("Goofy"); // Seleccionar el patrón por defecto
         // Agregar más patrones al menú
         panelBotones.add(patronComboBox);
 
@@ -57,6 +62,7 @@ public class Ventana extends JFrame implements ActionListener {
         add(panelBotones, BorderLayout.SOUTH);
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Iniciar")) {
@@ -65,12 +71,15 @@ public class Ventana extends JFrame implements ActionListener {
             tablero.pausarJuego();
         } else if (e.getActionCommand().equals("Limpiar")) {
             tablero.limpiarTablero();
+        } else if (e. getActionCommand().equals("Random")) {
+            tablero.randomGame();
+
         }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana(10, 20);
+            Ventana ventana = new Ventana(20, 10);
             ventana.setVisible(true);
         });
     }
