@@ -61,10 +61,22 @@ public class Tablero extends JPanel implements ActionListener {
         // Define patrones predefinidos
         HashMap<String, boolean[][]> patrones = new HashMap<>();
         patrones.put("Patrón de la Muerte", new boolean[][] {
-                {true, true, true, true},
-                {true, false, true, false},
+                {true, true, true, true, true, true, true, true},
+                {true, false, true, false, true, true, false, false},
                 {true, true, true,false,false,true,true,true}
         });
+        patrones.put("Colmena", new boolean[][] {
+                {false, false, false, false, false, false},
+                {false, false, true, true, false, false},
+                {false, true, false, false, true, false},
+                {false, false, true, true, false, false},
+                {false, false, false, false, false, false} });
+        patrones.put("Glider", new boolean[][] {
+                {false, false, false,true, false, false},
+                {false, true, false, false, false,true},
+                {true, false, false, false, false, false},
+                {true, false, false, false,false ,true},
+                {true ,true ,true ,true ,true,false} });
         // Agregar más patrones según sea necesario
 
         return patrones.get(patron);

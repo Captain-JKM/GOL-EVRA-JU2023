@@ -9,7 +9,7 @@ public class Ventana extends JFrame implements ActionListener {
     public Ventana(int filas, int columnas) {
         super("Juego de la Vida");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 1000);
 
         tablero = new Tablero(filas, columnas);
         add(tablero, BorderLayout.CENTER);
@@ -34,6 +34,8 @@ public class Ventana extends JFrame implements ActionListener {
         // Menú desplegable para seleccionar patrón
         JComboBox<String> patronComboBox = new JComboBox<>();
         patronComboBox.addItem("Patrón de la Muerte");
+        patronComboBox.addItem("Colmena");
+        patronComboBox.addItem("Glider");
         patronComboBox.setSelectedItem("Patrón de la Muerte"); // Seleccionar el patrón por defecto
         // Agregar más patrones al menú
         panelBotones.add(patronComboBox);
@@ -68,7 +70,7 @@ public class Ventana extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana(40, 40);
+            Ventana ventana = new Ventana(10, 20);
             ventana.setVisible(true);
         });
     }
