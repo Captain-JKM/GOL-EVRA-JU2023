@@ -3,12 +3,9 @@ import java.awt.*;
 
 public class Celda extends JPanel {
     private boolean estado;
-    private Color color;
 
     public Celda() {
         estado = false;
-        color = Color.WHITE;
-        // Ajustamos el tamaño de nuestras celdas
         setPreferredSize(new Dimension(10, 10));
     }
 

@@ -1,28 +1,31 @@
+// Clase Reglas
 public class Reglas {
 
-    public static boolean[][] aplicarReglas(boolean[][] actual, Celda[][] celdasManuales) {
+    public static boolean[][] aplicarReglas(boolean[][] actual) {
         boolean[][] siguiente = new boolean[actual.length][actual[0].length];
 
         for (int i = 0; i < actual.length; i++) {
             for (int j = 0; j < actual[i].length; j++) {
                 int vecinos = contarVecinos(actual, i, j);
 
-                // Aplicar reglas automáticas
                 if (actual[i][j]) {
-                    if (vecinos == 2 || vecinos == 3) {
-                        siguiente[i][j] = true; // Regla de sobrevivencia
+                    // Regla de subpoblación
+                    if (vecinos < 2) {
+                        siguiente[i][j] = false;
+                    }
+                    // Regla de sobrepoblación
+                    else if (vecinos > 3) {
+                        siguiente[i][j] = false;
+                    }
+                    // La célula sobrevive
+                    else {
+                        siguiente[i][j] = true;
                     }
                 } else {
+                    // Regla de reproducción
                     if (vecinos == 3) {
-                        siguiente[i][j] = true; // Regla de reproducción
-                    } else {
-                        siguiente[i][j] = false; // La celda muere si no cumple con ninguna condición
+                        siguiente[i][j] = true;
                     }
-                }
-
-                // Combinar con celdas manuales
-                if (celdasManuales[i][j].getEstado()) {
-                    siguiente[i][j] = true; // Regla de celdas manuales
                 }
             }
         }
