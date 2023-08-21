@@ -9,23 +9,11 @@ public class Reglas {
                 int vecinos = contarVecinos(actual, i, j);
 
                 if (actual[i][j]) {
-                    // Regla de subpoblación
-                    if (vecinos < 2) {
-                        generacion[i][j] = false;
-                    }
-                    // Regla de sobrepoblación
-                    else if (vecinos > 3) {
-                        generacion[i][j] = false;
-                    }
-                    // La célula sobrevive
-                    else {
-                        generacion[i][j] = true;
-                    }
+                    // Regla de subpoblación y sobrepoblación
+                    generacion[i][j] = (vecinos == 2 || vecinos == 3);
                 } else {
                     // Regla de reproducción
-                    if (vecinos == 3) {
-                        generacion[i][j] = true;
-                    }
+                    generacion[i][j] = (vecinos == 3);
                 }
             }
         }

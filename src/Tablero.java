@@ -37,7 +37,7 @@ public class Tablero extends JPanel implements ActionListener {
         celdas[1][2].setEstado(true);
         celdas[0][2].setEstado(true);
 
-
+        reglas = new Reglas();
 
     }
 
@@ -47,9 +47,9 @@ public class Tablero extends JPanel implements ActionListener {
         if (matriz != null) {
             int f = matriz.length; // Número de filas del patrón
             int c = matriz[0].length; // Número de columnas del patrón
-            int x = 0; // Cambia el valor de x a 0 para iniciar desde la esquina superior izquierda
-            int y = 0; // Cambia el valor de y a 0 para iniciar desde la esquina superior izquierda
-            // Coloca el patrón en la esquina superior izquierda del tablero
+            int x = (filas - f) / 2; // Posición x del centro del tablero
+            int y = (columnas - c) / 2; // Posición y del centro del tablero
+            // Coloca el patrón en el centro del tablero
             for (int i = 0; i < f; i++) {
                 for (int j = 0; j < c; j++) {
                     celdas[x + i][y + j].setEstado(matriz[i][j]);
