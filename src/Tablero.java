@@ -29,6 +29,7 @@ public class Tablero extends JPanel implements ActionListener {
             }
         }
 
+
         // Asigna el estado inicial "Patrón de la Muerte"
         celdas[1][0].setEstado(true);
         celdas[2][1].setEstado(true);
@@ -36,7 +37,6 @@ public class Tablero extends JPanel implements ActionListener {
         celdas[1][2].setEstado(true);
         celdas[0][2].setEstado(true);
 
-        reglas = new Reglas();
 
 
     }
@@ -78,7 +78,13 @@ public class Tablero extends JPanel implements ActionListener {
                 {true, false, false, false, false, false},
                 {true, false, false, false,false ,true},
                 {true ,true ,true ,true ,true,false} });
-        // Agregar más patrones según sea necesario
+        patrones.put("Eje1", new boolean[][] {
+                {false, false, false, false, false},
+                {false, false,false, false, false},
+                {true, false, true, false, true},
+                {true, false, false, false, false},
+                {false, true, false, false, false}
+                 });
 
         return patrones.get(patron);
     }
@@ -125,6 +131,7 @@ public class Tablero extends JPanel implements ActionListener {
         repaint();
     }
 
+
     private boolean[][] obtenerEstadoCeldas() {
         boolean[][] estadoCeldas = new boolean[filas][columnas];
         for (int i = 0; i < filas; i++) {
@@ -134,4 +141,5 @@ public class Tablero extends JPanel implements ActionListener {
         }
         return estadoCeldas;
     }
+
 }

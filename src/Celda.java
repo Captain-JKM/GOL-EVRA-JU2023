@@ -6,8 +6,6 @@ public class Celda extends JPanel {
 
     public Celda() {
         estado = false;
-
-        setPreferredSize(new Dimension(100, 100));
     }
 
     public boolean getEstado() {

@@ -2,7 +2,7 @@
 public class Reglas {
 
     public static boolean[][] aplicarReglas(boolean[][] actual) {
-        boolean[][] siguiente = new boolean[actual.length][actual[0].length];
+        boolean[][] generacion = new boolean[actual.length][actual[0].length];
 
         for (int i = 0; i < actual.length; i++) {
             for (int j = 0; j < actual[i].length; j++) {
@@ -11,25 +11,25 @@ public class Reglas {
                 if (actual[i][j]) {
                     // Regla de subpoblación
                     if (vecinos < 2) {
-                        siguiente[i][j] = false;
+                        generacion[i][j] = false;
                     }
                     // Regla de sobrepoblación
                     else if (vecinos > 3) {
-                        siguiente[i][j] = false;
+                        generacion[i][j] = false;
                     }
                     // La célula sobrevive
                     else {
-                        siguiente[i][j] = true;
+                        generacion[i][j] = true;
                     }
                 } else {
                     // Regla de reproducción
                     if (vecinos == 3) {
-                        siguiente[i][j] = true;
+                        generacion[i][j] = true;
                     }
                 }
             }
         }
-        return siguiente;
+        return generacion;
     }
 
     private static int contarVecinos(boolean[][] actual, int i, int j) {

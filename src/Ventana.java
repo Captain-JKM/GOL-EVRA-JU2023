@@ -41,6 +41,7 @@ public class Ventana extends JFrame implements ActionListener {
         patronComboBox.addItem("Goofy");
         patronComboBox.addItem("Colmena");
         patronComboBox.addItem("Glider");
+        patronComboBox.addItem("Eje1");
         patronComboBox.setSelectedItem("Goofy"); // Seleccionar el patrón por defecto
         // Agregar más patrones al menú
         panelBotones.add(patronComboBox);
@@ -67,6 +68,7 @@ public class Ventana extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Iniciar")) {
             tablero.iniciarJuego();
+
         } else if (e.getActionCommand().equals("Pausar")) {
             tablero.pausarJuego();
         } else if (e.getActionCommand().equals("Limpiar")) {
@@ -79,7 +81,7 @@ public class Ventana extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana(20, 10);
+            Ventana ventana = new Ventana(100, 100);
             ventana.setVisible(true);
         });
     }
