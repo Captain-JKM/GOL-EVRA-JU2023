@@ -9,14 +9,18 @@ public class Tablero extends JPanel implements ActionListener {
     private int filas;
     private int columnas;
     private Celda[][] celdas;
-    private Timer timer;
+    private int generacionActual = 0;
+    private JLabel generacionLabel; // Agrega el atributo generacionLabel
 
+    private Timer timer;
     private Reglas reglas;
 
 
-    public Tablero(int filas, int columnas) {
+    public Tablero(int filas, int columnas, JLabel generacionLabel) {
         this.filas = filas;
         this.columnas = columnas;
+        this.generacionLabel = generacionLabel;
+
 
         setLayout(new GridLayout(filas, columnas));
         celdas = new Celda[filas][columnas];
@@ -120,6 +124,7 @@ public class Tablero extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         boolean[][] estadoCeldas = obtenerEstadoCeldas();
         boolean[][] siguienteEstado = reglas.aplicarReglas(estadoCeldas);
 
@@ -128,6 +133,8 @@ public class Tablero extends JPanel implements ActionListener {
                 celdas[i][j].setEstado(siguienteEstado[i][j]);
             }
         }
+        generacionLabel.setText("Generación: " + generacionActual);
+        generacionActual++;
         repaint();
     }
 

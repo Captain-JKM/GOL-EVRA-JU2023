@@ -5,16 +5,20 @@ import java.awt.event.ActionListener;
 
 public class Ventana extends JFrame implements ActionListener {
     private final Tablero tablero;
+    private JLabel generacionLabel;
 
     public Ventana(int filas, int columnas) {
         super("Juego de la Vida");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 1000);
 
-        tablero = new Tablero(filas, columnas);
+        tablero = new Tablero(filas, columnas, generacionLabel);
         add(tablero, BorderLayout.CENTER);
 
         JPanel panelBotones = new JPanel();
+        generacionLabel = new JLabel("Generación: 0");
+        panelBotones.add(generacionLabel);
+        add(tablero, BorderLayout.CENTER);
 
         // Botón para iniciar el juego
         JButton botonIniciar = new JButton("Iniciar");
