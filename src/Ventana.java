@@ -6,25 +6,24 @@ import java.util.Scanner;
 
 public class Ventana extends JFrame implements ActionListener {
     private final Tablero tablero;
+    private JLabel generacionesLabel;
 
     public Ventana(int filas, int columnas, int velocidad, int generacion) {
         super("Juego de la Vida");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 1000);
 
-        tablero = new Tablero(filas, columnas, velocidad, generacion);
+        tablero = new Tablero(filas, columnas, velocidad, generacion, this);
         add(tablero, BorderLayout.CENTER);
 
         JPanel panelBotones = new JPanel();
+        generacionesLabel = new JLabel("Generación: 0");
+        add(generacionesLabel, BorderLayout.NORTH);
 
         // Botón para iniciar el juego
         JButton botonIniciar = new JButton("Iniciar");
         botonIniciar.addActionListener(this);
         panelBotones.add(botonIniciar);
-        //Boton Para un patrón random
-        JButton botonRandom = new JButton("Random");
-        botonRandom.addActionListener(this);
-        panelBotones.add(botonRandom);
 
         // Botón para pausar el juego
         JButton botonPausar = new JButton("Pausar");
@@ -35,6 +34,11 @@ public class Ventana extends JFrame implements ActionListener {
         JButton botonLimpiar = new JButton("Limpiar");
         botonLimpiar.addActionListener(this);
         panelBotones.add(botonLimpiar);
+
+        // Botón para un patrón random
+        JButton botonRandom = new JButton("Random");
+        botonRandom.addActionListener(this);
+        panelBotones.add(botonRandom);
 
         // Menú desplegable para seleccionar patrón
         JComboBox<String> patronComboBox = new JComboBox<>();
@@ -59,23 +63,23 @@ public class Ventana extends JFrame implements ActionListener {
         });
         panelBotones.add(botonAplicarPatron);
 
-
         add(panelBotones, BorderLayout.SOUTH);
     }
 
+    public void actualizarGeneracionesLabel(int generacionActual) {
+        generacionesLabel.setText("Generación: " + generacionActual);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Iniciar")) {
             tablero.iniciarJuego();
-
         } else if (e.getActionCommand().equals("Pausar")) {
             tablero.pausarJuego();
         } else if (e.getActionCommand().equals("Limpiar")) {
             tablero.limpiarTablero();
-        } else if (e. getActionCommand().equals("Random")) {
+        } else if (e.getActionCommand().equals("Random")) {
             tablero.randomGame();
-
         }
     }
 
@@ -88,7 +92,7 @@ public class Ventana extends JFrame implements ActionListener {
             int columnas = sc.nextInt();
             System.out.print("Velocidad de juego: ");
             int velocidad = sc.nextInt();
-            System.out.println("Generaciones: ");
+            System.out.print("Generaciones: ");
             int generacion = sc.nextInt();
             Ventana ventana = new Ventana(filas, columnas, velocidad, generacion);
             ventana.setVisible(true);

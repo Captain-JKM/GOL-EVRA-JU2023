@@ -15,17 +15,18 @@ public class Tablero extends JPanel implements ActionListener {
     private Reglas reglas;
     private int generacionActual;
     private int generacionesObjetivo;
+    private Ventana ventana; // Agregar una referencia a la ventana
 
-    public Tablero(int filas, int columnas, int velocidad, int generaciones) {
+    public Tablero(int filas, int columnas, int velocidad, int generaciones, Ventana ventana) {
         this.filas = filas;
         this.columnas = columnas;
         this.velocidad = velocidad;
         this.generaciones = generaciones;
+        this.ventana = ventana; // Inicializar la referencia a la ventana
 
         setLayout(new GridLayout(filas, columnas));
         celdas = new Celda[filas][columnas];
         timer = new Timer(velocidad, this);
-
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -45,7 +46,6 @@ public class Tablero extends JPanel implements ActionListener {
         celdas[0][2].setEstado(true);
 
         reglas = new Reglas();
-
     }
 
     public void iniciarTablero(String patron) {
@@ -65,6 +65,7 @@ public class Tablero extends JPanel implements ActionListener {
             repaint();
         }
     }
+
     private boolean[][] getPatron(String patron) {
         // Define patrones predefinidos
         HashMap<String, boolean[][]> patrones = new HashMap<>();
@@ -99,6 +100,7 @@ public class Tablero extends JPanel implements ActionListener {
     public void iniciarJuego() {
         timer.start();
     }
+
     public void randomGame() {
         timer.stop();
         Random random = new Random();
@@ -107,9 +109,7 @@ public class Tablero extends JPanel implements ActionListener {
                 celdas[i][j].setEstado(random.nextBoolean());
             }
         }
-
     }
-
 
     public void pausarJuego() {
         timer.stop();
@@ -122,6 +122,8 @@ public class Tablero extends JPanel implements ActionListener {
                 celdas[i][j].setEstado(false);
             }
         }
+        generacionActual = 0; // Restablecer el contador de generaciones
+        ventana.actualizarGeneracionesLabel(generacionActual); // Actualizar la etiqueta
         repaint();
     }
 
@@ -137,12 +139,12 @@ public class Tablero extends JPanel implements ActionListener {
                 }
             }
             generacionActual++;
+            ventana.actualizarGeneracionesLabel(generacionActual); // Actualizar la etiqueta
             repaint();
         } else {
             timer.stop();
         }
     }
-
 
     private boolean[][] obtenerEstadoCeldas() {
         boolean[][] estadoCeldas = new boolean[filas][columnas];
@@ -153,5 +155,4 @@ public class Tablero extends JPanel implements ActionListener {
         }
         return estadoCeldas;
     }
-
 }
