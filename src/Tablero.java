@@ -8,23 +8,24 @@ import java.util.Random;
 public class Tablero extends JPanel implements ActionListener {
     private int filas;
     private int columnas;
+    private int velocidad;
+    private int generaciones;
     private Celda[][] celdas;
-    private int generacionActual = 0;
-    private JLabel generacionLabel; // Agrega el atributo generacionLabel
-
     private Timer timer;
     private Reglas reglas;
+    private int generacionActual;
+    private int generacionesObjetivo;
 
-
-    public Tablero(int filas, int columnas, JLabel generacionLabel) {
+    public Tablero(int filas, int columnas, int velocidad, int generaciones) {
         this.filas = filas;
         this.columnas = columnas;
-        this.generacionLabel = generacionLabel;
-
+        this.velocidad = velocidad;
+        this.generaciones = generaciones;
 
         setLayout(new GridLayout(filas, columnas));
         celdas = new Celda[filas][columnas];
-        timer = new Timer(250, this);
+        timer = new Timer(velocidad, this);
+
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -33,6 +34,8 @@ public class Tablero extends JPanel implements ActionListener {
             }
         }
 
+        generacionActual = 0;
+        generacionesObjetivo = generaciones;
 
         // Asigna el estado inicial "Patrón de la Muerte"
         celdas[1][0].setEstado(true);
@@ -88,7 +91,7 @@ public class Tablero extends JPanel implements ActionListener {
                 {true, false, true, false, true},
                 {true, false, false, false, false},
                 {false, true, false, false, false}
-                 });
+        });
 
         return patrones.get(patron);
     }
@@ -124,18 +127,20 @@ public class Tablero extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (generacionActual < generacionesObjetivo || generacionesObjetivo == 0) {
+            boolean[][] estadoCeldas = obtenerEstadoCeldas();
+            boolean[][] siguienteEstado = reglas.aplicarReglas(estadoCeldas);
 
-        boolean[][] estadoCeldas = obtenerEstadoCeldas();
-        boolean[][] siguienteEstado = reglas.aplicarReglas(estadoCeldas);
-
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                celdas[i][j].setEstado(siguienteEstado[i][j]);
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    celdas[i][j].setEstado(siguienteEstado[i][j]);
+                }
             }
+            generacionActual++;
+            repaint();
+        } else {
+            timer.stop();
         }
-        generacionLabel.setText("Generación: " + generacionActual);
-        generacionActual++;
-        repaint();
     }
 
 

@@ -2,23 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 public class Ventana extends JFrame implements ActionListener {
     private final Tablero tablero;
-    private JLabel generacionLabel;
 
-    public Ventana(int filas, int columnas) {
+    public Ventana(int filas, int columnas, int velocidad, int generacion) {
         super("Juego de la Vida");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 1000);
 
-        tablero = new Tablero(filas, columnas, generacionLabel);
+        tablero = new Tablero(filas, columnas, velocidad, generacion);
         add(tablero, BorderLayout.CENTER);
 
         JPanel panelBotones = new JPanel();
-        generacionLabel = new JLabel("Generación: 0");
-        panelBotones.add(generacionLabel);
-        add(tablero, BorderLayout.CENTER);
 
         // Botón para iniciar el juego
         JButton botonIniciar = new JButton("Iniciar");
@@ -84,7 +81,16 @@ public class Ventana extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana(40, 40);
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Dame Filas: ");
+            int filas = sc.nextInt();
+            System.out.print("Dame Columnas: ");
+            int columnas = sc.nextInt();
+            System.out.print("Velocidad de juego: ");
+            int velocidad = sc.nextInt();
+            System.out.println("Generaciones: ");
+            int generacion = sc.nextInt();
+            Ventana ventana = new Ventana(filas, columnas, velocidad, generacion);
             ventana.setVisible(true);
         });
     }
